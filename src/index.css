@@ -4,8 +4,8 @@ body {
 }
 
 .bannerImage {
-  position: absolute;
-  object-position: bottom;
+  position: relative;
+  object-position: center;
   background-image: url("./assets/backgroundImage-home.jpg");
   object-position: left;
   object-fit: cover;
