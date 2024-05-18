@@ -14,11 +14,8 @@ function BusList({ filteredBus }) {
 
     const departure = parseTime(depTime);
     const arrival = parseTime(arrTime);
-    console.log(departure);
-    console.log(arrival);
     let diff = arrival - departure;
     if (diff < 0) diff += 24 * 60 * 60 * 1000;
-    console.log(diff);
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
