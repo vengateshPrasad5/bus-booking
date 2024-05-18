@@ -57,7 +57,7 @@ function BusList({ filteredBus }) {
               >
                 View Seats
               </Button>
-              {isExpand && "Show me"}
+              {/* {isExpand && "Show me"} */}
             </div>
           </div>
         </div>
