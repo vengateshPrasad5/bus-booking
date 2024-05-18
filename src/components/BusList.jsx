@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
 function BusList({ filteredBus }) {
+  const [isExpand, setExpand] = useState(false);
   const calulateTimeDiff = (arrTime, depTime) => {
     const parseTime = (time) => {
       const [timePart, period] = time.split(" ");
@@ -21,6 +22,7 @@ function BusList({ filteredBus }) {
 
     return `${hours} hours and ${minutes} minutes`;
   };
+
   return (
     <>
       {filteredBus.map((data, index) => (
@@ -48,7 +50,11 @@ function BusList({ filteredBus }) {
               <p className="text-center">
                 Price: <span className="fw-bold">{data.price}</span>
               </p>
-              <Button variant="primary" style={{ width: 150 }}>
+              <Button
+                variant="primary"
+                onClick={setExpand((prevVal) => !prevVal)}
+                style={{ width: 150 }}
+              >
                 View Seats
               </Button>
             </div>
