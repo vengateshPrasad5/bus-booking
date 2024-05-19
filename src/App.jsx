@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SearchBus from "./components/SearchBus";
 import { useState } from "react";
 import { locations } from "./utils";
+import BusLayout from "./components/BusLayout";
 
 function App() {
   const [search, setSearch] = useState({
@@ -12,6 +13,8 @@ function App() {
     to: locations[1],
     date: "",
   });
+
+  const [selectedSeats, setSelectedSeats] = useState([]);
   return (
     <div>
       <Navbar />
@@ -20,6 +23,15 @@ function App() {
           <Route
             path="/"
             element={<SearchBus search={search} setSearch={setSearch} />}
+          />
+          <Route
+            path="/bus/:id"
+            element={
+              <BusLayout
+                selectedSeats={selectedSeats}
+                setSelectedSeats={setSelectedSeats}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>
