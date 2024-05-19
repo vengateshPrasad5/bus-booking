@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function BusList({ filteredBus }) {
-  const [isExpand, setExpand] = useState(false);
+  const navigate = useNavigate();
+
   const calulateTimeDiff = (arrTime, depTime) => {
     const parseTime = (time) => {
       const [timePart, period] = time.split(" ");
@@ -28,7 +30,7 @@ function BusList({ filteredBus }) {
       {filteredBus.map((data, index) => (
         <div
           key={index}
-          className="container row border-rounded shadow my-3 mx-auto p-3"
+          className="container row border rounded shadow my-3 mx-auto p-3"
         >
           <h3 className="mb-3">{data.name}</h3>
           <p className="fw-normal">{data.busType}</p>
@@ -47,17 +49,20 @@ function BusList({ filteredBus }) {
               <p className="fw-bold"> {data.arrivalTime}</p>
             </div>
             <div>
-              <p className="text-center">
+              <h5 className="text-center">
                 Price: <span className="fw-bold">{data.price}</span>
-              </p>
+              </h5>
               <Button
                 variant="primary"
-                onClick={setExpand((prevVal) => !prevVal)}
+                className="mb-2"
+                onClick={() => navigate(`bus/${data.id}`)}
                 style={{ width: 150 }}
               >
                 View Seats
               </Button>
-              {/* {isExpand && "Show me"} */}
+              <h6 className="text-center">
+                Seats Avialable:{data.availableSeats.length}
+              </h6>
             </div>
           </div>
         </div>
