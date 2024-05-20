@@ -6,6 +6,7 @@ import SearchBus from "./components/SearchBus";
 import { useState } from "react";
 import { locations } from "./utils";
 import BusLayout from "./components/BusLayout";
+import BookingForm from "./components/BookingForm";
 
 function App() {
   const [search, setSearch] = useState({
@@ -31,6 +32,12 @@ function App() {
                 selectedSeats={selectedSeats}
                 setSelectedSeats={setSelectedSeats}
               />
+            }
+          />
+          <Route
+            path="/bus/addPassenger"
+            element={
+              <BookingForm selectedSeats={selectedSeats} search={search} />
             }
           />
         </Routes>
