@@ -60,7 +60,8 @@ function BookingForm({ selectedSeats, search }) {
             <Form.Label>Gender:</Form.Label>
             <Button
               variant={
-                (selectedSeats[index] === seat) === "Male"
+                selectedSeats[index] === seat &&
+                passengerList[seat].gender === "Male"
                   ? "primary"
                   : "outline-primary"
               }
@@ -71,7 +72,8 @@ function BookingForm({ selectedSeats, search }) {
             </Button>
             <Button
               variant={
-                (selectedSeats[index] === seat) === "Female"
+                selectedSeats[index] === seat &&
+                passengerList[seat].gender === "Female"
                   ? "primary"
                   : "outline-primary"
               }
