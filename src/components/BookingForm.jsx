@@ -12,7 +12,6 @@ function BookingForm({ selectedSeats, search }) {
       return acc;
     }, {})
   );
-  const inputWidth = { width: 250 };
   //   const handleInputChange = (seat, field, value) => {
   //     const newPassenger = passengerInfo.map((seatId) =>
   //         seatId === seat ? { ...seat, [field]: value } : seat
@@ -44,7 +43,7 @@ function BookingForm({ selectedSeats, search }) {
             <Form.Label>Name:</Form.Label>
             <Form.Control
               className="m-3"
-              style={inputWidth}
+              style={{ width: 250 }}
               type="text"
               maxLength={25}
               onChange={(e) => handleInputChange(seat, "name", e.target.value)}
@@ -52,8 +51,8 @@ function BookingForm({ selectedSeats, search }) {
             <Form.Label>Age:</Form.Label>
             <Form.Control
               className="m-3"
-              style={inputWidth}
-              type="text"
+              style={{ width: 80 }}
+              type="number"
               maxLength={2}
               onChange={(e) => handleInputChange(seat, "age", e.target.value)}
             ></Form.Control>
