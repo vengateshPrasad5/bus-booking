@@ -7,27 +7,25 @@ function BookingForm({ selectedSeats, search }) {
   //   const [passengerList, setPassengerList] = useState([]);
 
   const [passengerList, setPassengerList] = useState(
-    selectedSeats.reduce((acc, seat) => {
-      acc[seat] = { id: seat, name: "", age: "", gender: "" };
+    selectedSeats.reduce((acc, seat, index) => {
+      acc[seat] = {
+        id: index + 1,
+        seatId: seat,
+        name: "",
+        age: "",
+        gender: "",
+      };
       return acc;
     }, {})
   );
-  //   const handleInputChange = (seat, field, value) => {
-  //     const newPassenger = passengerInfo.map((seatId) =>
-  //         seatId === seat ? { ...seat, [field]: value } : seat
-  //     );
-  //     setPassengerInfo(newPassenger);
-  //     const values = [...passengerList];
-  //     values[seat][field] = value;
-  //     setPassengerList(values);
-  //   };
+
   const handleInputChange = (seat, field, value) => {
     setPassengerList((prevList) => ({
       ...prevList,
       [seat]: { ...prevList[seat], [field]: value },
     }));
   };
-  console.log(selectedSeats[1]);
+  console.log(selectedSeats);
   console.log(passengerList);
   return (
     <div className="text-align-center m-2">
