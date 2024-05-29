@@ -19,32 +19,34 @@ axios.interceptors.request.use(
 
 export const getSearchBus = (obj) =>
   axios.get(
-    `${BASE_REST_API_URL}/bus/searchBus?source=${obj.source}&destination=${obj.destination}&departureDate=${obj.departureDate}`
+    `${BASE_REST_API_URL}bus/searchBus?source=${obj.to}&destination=${obj.from}&departureDate=${obj.date}`
   );
 
 export const getSourceList = () =>
-  axios.get(`${BASE_REST_API_URL}/bus/getSourceList`);
+  axios.get(`${BASE_REST_API_URL}bus/getSourceList`);
 
 export const getDepartureList = () =>
-  axios.get(`${BASE_REST_API_URL}/bus/getDepartureList`);
+  axios.get(`${BASE_REST_API_URL}bus/getDepartureList`);
+
+export const getBuses = () => axios.get(`${BASE_REST_API_URL}bus/getBusList`);
 
 export const getBusById = (id) =>
-  axios.get(`${BASE_REST_API_URL}/bus/getBusById/${id}`);
+  axios.get(`${BASE_REST_API_URL}bus/getBusById/${id}`);
 
 export const getPassengerList = (customerId) =>
   axios.get(
-    `${BASE_REST_API_URL}/passenger/getPassengerList?customerId=${customerId}`
+    `${BASE_REST_API_URL}passenger/getPassengerList?customerId=${customerId}`
   );
 
 export const getPassengerListByCustomer = (customerId) =>
   axios.get(
-    `${BASE_REST_API_URL}/passenger/getBookingListByCustomer?userId=${customerId}`
+    `${BASE_REST_API_URL}passenger/getBookingListByCustomer?userId=${customerId}`
   );
 
 export const getBookingListByDate = (reservationDate) =>
   axios.get(
-    `${BASE_REST_API_URL}/booking/getBookingListByDate?reservationDate =${reservationDate}`
+    `${BASE_REST_API_URL}booking/getBookingListByDate?reservationDate=${reservationDate}`
   );
 
 export const createBooking = (bookingObj) =>
-  axios.post(`${BASE_REST_API_URL}/booking/createBooking`, bookingObj);
+  axios.post(`${BASE_REST_API_URL}booking/createBooking`, bookingObj);
