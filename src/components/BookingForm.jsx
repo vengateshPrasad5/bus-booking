@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 function BookingForm({ selectedSeats, search }) {
   const navigate = useNavigate();
-  //   const [passengerList, setPassengerList] = useState([]);
 
   const [passengerList, setPassengerList] = useState(
     selectedSeats.reduce((acc, seat, index) => {
@@ -25,8 +24,6 @@ function BookingForm({ selectedSeats, search }) {
       [seat]: { ...prevList[seat], [field]: value },
     }));
   };
-  console.log(selectedSeats);
-  console.log(passengerList);
   return (
     <div className="text-align-center m-2">
       <h5>
@@ -82,6 +79,7 @@ function BookingForm({ selectedSeats, search }) {
           </Form.Group>
         </div>
       ))}
+      <Button onClick={() => navigate("/")}>Book Now</Button>
     </div>
   );
 }
