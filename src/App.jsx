@@ -10,17 +10,23 @@ import BookingForm from "./components/BookingForm";
 import { isUserLoggedIn } from "./service/authService";
 import LoginComponent from "./components/LoginComponent";
 import RegisterComponent from "./components/RegisterComponent";
+import { useAuth, AuthProvider } from "./components/AuthProvider";
+import OrderHistory from "./components/OrderHistory";
+import UserProfile from "./components/UserProfile";
 function App() {
   const [search, setSearch] = useState({
     from: locations[0],
     to: locations[1],
     date: "",
   });
+  const [selectedBus, setSelectedBus] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
 
-  function AuthenticatedRoute({ children }) {
-    const isAuth = isUserLoggedIn();
+  const userLogged = isUserLoggedIn();
 
+  function AuthenticatedRoute({ children }) {
+    const isAuth = useAuth();
+    console.log(isAuth);
     if (isAuth) {
       return children;
     }
@@ -29,7 +35,7 @@ function App() {
   }
 
   return (
-    <div>
+    <AuthProvider>
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -42,17 +48,41 @@ function App() {
             element={
               // <AuthenticatedRoute>
               //   </AuthenticatedRoute>
-              <BusLayout
-                selectedSeats={selectedSeats}
-                setSelectedSeats={setSelectedSeats}
-              />
+              userLogged && (
+                <BusLayout
+                  selectedSeats={selectedSeats}
+                  setSelectedSeats={setSelectedSeats}
+                  selectedBus={selectedBus}
+                  setSelectedBus={setSelectedBus}
+                />
+              )
             }
           />
           <Route
             path="/bus/addPassenger"
             element={
               <AuthenticatedRoute>
-                <BookingForm selectedSeats={selectedSeats} search={search} />
+                <BookingForm
+                  selectedSeats={selectedSeats}
+                  search={search}
+                  selectedBus={selectedBus}
+                />
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/bus/bookingHistory"
+            element={
+              <AuthenticatedRoute>
+                <OrderHistory />
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/userProfile"
+            element={
+              <AuthenticatedRoute>
+                <UserProfile />
               </AuthenticatedRoute>
             }
           />
@@ -60,7 +90,7 @@ function App() {
           <Route path="/register" element={<RegisterComponent />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </AuthProvider>
   );
 }
 
