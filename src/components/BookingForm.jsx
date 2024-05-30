@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { createBooking } from "../service/busService";
 
-function BookingForm({ selectedSeats, search }) {
+function BookingForm({ selectedSeats, search, selectedBus }) {
   const navigate = useNavigate();
-
-  const [passengerList, setPassengerList] = useState(
+  const [passengersList, setPassengersList] = useState(
     selectedSeats.reduce((acc, seat, index) => {
-      acc[seat] = {
+      acc[seat.seatId] = {
         id: index + 1,
-        seatId: seat,
+        seatId: seat.seatId,
         name: "",
         age: "",
         gender: "",
@@ -17,12 +17,34 @@ function BookingForm({ selectedSeats, search }) {
       return acc;
     }, {})
   );
-
   const handleInputChange = (seat, field, value) => {
-    setPassengerList((prevList) => ({
+    setPassengersList((prevList) => ({
       ...prevList,
       [seat]: { ...prevList[seat], [field]: value },
     }));
+  };
+
+  const handleBooking = async () => {
+    console.log(selectedBus);
+    const passengerList = Object.values(passengersList).map((passenger) => ({
+      ...passenger,
+    }));
+    const obj = {
+      reservationDate: selectedBus.departureDate,
+      status: "Confirmed",
+      userId: parseInt(sessionStorage.getItem("userId")),
+      busId: selectedBus.busId,
+      passengerList,
+    };
+    try {
+      const response = await createBooking(obj);
+      if (response.status === 201) {
+        navigate("/");
+        alert("Booking Successfully Done!!! Please visit Order History");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <div className="text-align-center m-2">
@@ -33,7 +55,7 @@ function BookingForm({ selectedSeats, search }) {
       <h5 className="mx-2">Add Passenger Info</h5>
       {selectedSeats.map((seat, index) => (
         <div key={index}>
-          <div className="mx-5 mb-2">Seat: {seat}</div>
+          <div className="mx-5 mb-2">Seat: {seat.seatNo}</div>
           <Form.Group className="d-flex justify-content-start align-items-center flex-wrap mx-5">
             <Form.Label>Name:</Form.Label>
             <Form.Control
@@ -41,7 +63,9 @@ function BookingForm({ selectedSeats, search }) {
               style={{ width: 250 }}
               type="text"
               maxLength={25}
-              onChange={(e) => handleInputChange(seat, "name", e.target.value)}
+              onChange={(e) =>
+                handleInputChange(seat.seatId, "name", e.target.value)
+              }
             ></Form.Control>
             <Form.Label>Age:</Form.Label>
             <Form.Control
@@ -49,17 +73,19 @@ function BookingForm({ selectedSeats, search }) {
               style={{ width: 80 }}
               type="number"
               maxLength={2}
-              onChange={(e) => handleInputChange(seat, "age", e.target.value)}
+              onChange={(e) =>
+                handleInputChange(seat.seatId, "age", e.target.value)
+              }
             ></Form.Control>
             <Form.Label>Gender:</Form.Label>
             <Button
               variant={
                 selectedSeats[index] === seat &&
-                passengerList[seat].gender === "Male"
+                passengersList[seat.seatId].gender === "Male"
                   ? "primary"
                   : "outline-primary"
               }
-              onClick={() => handleInputChange(seat, "gender", "Male")}
+              onClick={() => handleInputChange(seat.seatId, "gender", "Male")}
               className="m-1"
             >
               Male
@@ -67,11 +93,11 @@ function BookingForm({ selectedSeats, search }) {
             <Button
               variant={
                 selectedSeats[index] === seat &&
-                passengerList[seat].gender === "Female"
+                passengersList[seat.seatId].gender === "Female"
                   ? "primary"
                   : "outline-primary"
               }
-              onClick={() => handleInputChange(seat, "gender", "Female")}
+              onClick={() => handleInputChange(seat.seatId, "gender", "Female")}
               className="m-1"
             >
               Female
@@ -79,7 +105,7 @@ function BookingForm({ selectedSeats, search }) {
           </Form.Group>
         </div>
       ))}
-      <Button onClick={() => navigate("/")}>Book Now</Button>
+      <Button onClick={() => handleBooking()}>Book Now</Button>
     </div>
   );
 }
