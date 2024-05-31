@@ -1,10 +1,18 @@
-import React, { useState } from "react";
-import { Buses, locations } from "../utils";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import BusList from "./BusList";
+import {
+  getSourceList,
+  getDepartureList,
+  getSearchBus,
+  getBuses,
+} from "../service/busService";
 
 function SearchBus({ search, setSearch }) {
   const [filteredBus, setFilteredBus] = useState(null);
+  const [source, setSource] = useState([]);
+  const [destination, setDestination] = useState([]);
+
   const handleFromSearch = (e) => {
     setSearch((prevState) => ({ ...prevState, from: e.target.value }));
   };
@@ -15,16 +23,46 @@ function SearchBus({ search, setSearch }) {
     setSearch((prevState) => ({ ...prevState, date: e.target.value }));
     console.log(e.target.value);
   };
-  const handleSearch = () => {
-    // do an API call to get the buses on the selected options
-    setFilteredBus(
-      Buses.filter(
-        (data) =>
-          data.source === search.from &&
-          data.destination === search.to &&
-          data.availableDates.includes(search.date)
-      )
-    );
+  useEffect(() => {
+    sourceList();
+    destinationList();
+    busList();
+  }, []);
+
+  const sourceList = async () => {
+    try {
+      const response = await getSourceList();
+      setSource(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const destinationList = async () => {
+    try {
+      const response = await getDepartureList();
+      setDestination(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const busList = async () => {
+    try {
+      const response = await getBuses();
+      setFilteredBus(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSearch = async () => {
+    try {
+      const response = await getSearchBus(search);
+      setFilteredBus(response.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div>
@@ -39,7 +77,7 @@ function SearchBus({ search, setSearch }) {
               value={search.from}
               onChange={(e) => handleFromSearch(e)}
             >
-              {locations.map((data, index) => (
+              {source.map((data, index) => (
                 <option key={index} value={data}>
                   {data}
                 </option>
@@ -52,7 +90,7 @@ function SearchBus({ search, setSearch }) {
               value={search.to}
               onChange={(e) => handleToSearch(e)}
             >
-              {locations.map((data, index) => (
+              {destination.map((data, index) => (
                 <option key={index} value={data}>
                   {data}
                 </option>
