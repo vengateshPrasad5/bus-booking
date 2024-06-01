@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getUserProfile } from "../service/authService";
 import Loader from "./Loader";
+import ChangePassword from "./ChangePassword";
 
 function UserProfile() {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [modalShow, setModalShow] = React.useState(false);
 
   const role =
     sessionStorage.getItem("role") === "ROLE_USER" ? "USER" : "ADMIN";
@@ -58,10 +60,14 @@ function UserProfile() {
                   <div className="form-group mb-3">
                     <button
                       className="btn btn-primary"
-                      onClick={(e) => handleChangePassword(e)}
+                      onClick={() => setModalShow(true)}
                     >
                       Change Password
                     </button>
+                    <ChangePassword
+                      show={modalShow}
+                      onHide={() => setModalShow(false)}
+                    />
                   </div>
                 </div>
               </div>
