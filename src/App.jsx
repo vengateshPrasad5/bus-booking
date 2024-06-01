@@ -14,6 +14,7 @@ import RegisterComponent from "./components/RegisterComponent";
 import OrderHistory from "./components/OrderHistory";
 import UserProfile from "./components/UserProfile";
 import PrivateOutlet from "./components/PrivateOutlet";
+import Payment from "./components/Payment";
 function App() {
   const [search, setSearch] = useState({
     from: locations[0],
@@ -22,15 +23,6 @@ function App() {
   });
   const [selectedBus, setSelectedBus] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
-  // const userLogged = isUserLoggedIn();
-
-  // function AuthenticatedRoute({ children }) {
-  //   const isAuth = UseAuth();
-  //   if (isAuth) {
-  //     return children;
-  //   }
-  //   return <Navigate to="/" />;
-  // }
 
   return (
     <BrowserRouter>
@@ -62,6 +54,7 @@ function App() {
           <Route path="/bus/bookingHistory" element={<OrderHistory />} />
           <Route path="/userProfile" element={<UserProfile />} />
         </Route>
+        <Route path="/payment" element={<Payment />} />
         <Route
           path="/"
           element={<SearchBus search={search} setSearch={setSearch} />}
