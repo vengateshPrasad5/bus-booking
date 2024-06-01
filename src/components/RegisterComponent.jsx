@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { registerAPICall } from "../service/authService";
-import Loader from "./Loader";
+import SmallLoader from "./SmallLoader";
 import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
@@ -29,7 +29,6 @@ const RegisterComponent = () => {
 
   return (
     <div className="position-relative">
-      <Loader className="d-flex align-items-center justify-content-center" />
       <div className="container">
         {successMsg && <Alert variant="success">{successMsg}</Alert>}
         <div className="row ">
@@ -84,10 +83,7 @@ const RegisterComponent = () => {
                       className="btn btn-primary"
                       onClick={(e) => handleRegistrationForm(e)}
                     >
-                      {isLoading && (
-                        <Loader className="position-absolute top-50 start-50 translate-middle" />
-                      )}
-                      Submit
+                      {isLoading && <SmallLoader />}&nbsp; Submit
                     </button>
                     <a
                       href=""

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
 import { getBusById, getBookingListByDate } from "../service/busService";
+import Loader from "./Loader";
 
 const TicketItem = styled.li`
   list-style-type: none;
@@ -27,6 +28,7 @@ function BusLayout({
 
   const [layout, setLayout] = useState(null);
   const [bookedSeats, setBookedSeats] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const isSleeper = selectedBus?.busType === "Sleeper";
   const seatWidth = isSleeper ? "80px" : "25px";
   const isBookedSeat = (seat) => bookedSeats?.includes(seat);
@@ -36,9 +38,10 @@ function BusLayout({
     getSelectedBus();
   }, []);
   const getSelectedBus = async () => {
+    setLoading(true);
     try {
       const response = await getBusById(id);
-      console.log(response.data.seats);
+      console.log(response.data);
       setSelectedBus(response.data);
       processSeats(response.data.seats);
       getBookingList(response.data.departureDate);
@@ -50,6 +53,7 @@ function BusLayout({
     try {
       const response = await getBookingListByDate(date);
       console.log(response.data);
+      setLoading(false);
       setBookedSeats(getSeatIds(response.data));
     } catch (error) {
       console.error(error);
@@ -169,6 +173,7 @@ function BusLayout({
 
   return (
     <div className="container bg-body-secondary row border rounded shadow my-3 mx-auto p-3">
+      {isLoading && <Loader />}
       <h2>{selectedBus?.name}</h2>
       <h6>{selectedBus?.busType}</h6>
       <div className="d-flex">
@@ -252,7 +257,7 @@ function BusLayout({
         style={{ width: 300 }}
         variant="success"
         disabled={!selectedSeats.length > 0}
-        onClick={() => navigate("/bus/addPassenger")}
+        onClick={() => navigate("/checkout")}
       >
         Continue
       </Button>

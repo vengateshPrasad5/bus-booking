@@ -24,7 +24,7 @@ function OrderHistory() {
   };
   return (
     <div className="container">
-      <h2 className="text-center">Order History</h2>
+      <h2 className="text-center">Booking History</h2>
       {isLoading ? (
         <Loader />
       ) : (

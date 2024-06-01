@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "./authService";
+import { getToken, isTokenExpired, logout } from "./authService";
 
 const BASE_REST_API_URL = "http://localhost:8080/api/v1/";
 
@@ -8,9 +8,17 @@ const BASE_REST_API_URL_NO_TOKEN = "http://localhost:8080/api/v1/";
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
-
-    config.headers["Authorization"] = getToken();
+    const token = getToken();
+    if (token) {
+      if (isTokenExpired(token)) {
+        logout();
+        alert("Token Expired");
+        window.location.href = "/";
+        return Promise.reject(new Error("Token expired"));
+      } else {
+        config.headers["Authorization"] = getToken();
+      }
+    }
     return config;
   },
   function (error) {
@@ -53,3 +61,12 @@ export const getBookingListByDate = (reservationDate) =>
 
 export const createBooking = (bookingObj) =>
   axios.post(`${BASE_REST_API_URL}booking/createBooking`, bookingObj);
+
+export const createPayment = (paymentObj) =>
+  axios.post(`${BASE_REST_API_URL_NO_TOKEN}payment/createPayment`, paymentObj);
+
+export const storeInfo = (search, selectedBus, selectedSeats) => {
+  sessionStorage.setItem("search", search);
+  sessionStorage.setItem("selectedBus", selectedBus);
+  sessionStorage.setItem("selectedSeats", selectedSeats);
+};

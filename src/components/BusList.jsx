@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { isUserLoggedIn } from "../service/authService";
 
 function BusList({ filteredBus }) {
   const navigate = useNavigate();
+  const isAuth = isUserLoggedIn();
 
   const calulateTimeDiff = (arrTime, depTime) => {
     const parseTime = (time) => {
@@ -36,8 +38,9 @@ function BusList({ filteredBus }) {
           <p className="fw-normal">{data.busType}</p>
           <div className="d-flex justify-content-evenly align-items-center">
             <div>
+              <p className="fw-bold">{data.departureDate}</p>
               <p className="fw-bold m-0"> {data.source}</p>
-              <p className="fw-bold">{data.departureTime}</p>
+              <p className="fw-bold">{data.departureTime.slice(0, 5)}</p>
             </div>
             <div>
               ----------
@@ -45,8 +48,9 @@ function BusList({ filteredBus }) {
               ----------
             </div>
             <div>
+              <p className="fw-bold">{data.arrivalDate}</p>
               <p className="fw-bold m-0"> {data.destination}</p>
-              <p className="fw-bold"> {data.arrivalTime}</p>
+              <p className="fw-bold"> {data.arrivalTime.slice(0, 5)}</p>
             </div>
             <div>
               <h5 className="text-center">
@@ -55,14 +59,15 @@ function BusList({ filteredBus }) {
               <Button
                 variant="primary"
                 className="mb-2"
-                onClick={() => navigate(`bus/${data.id}`)}
+                onClick={() =>
+                  isAuth
+                    ? navigate(`bus/${data.busId}`)
+                    : alert("Please SignIn to continue")
+                }
                 style={{ width: 150 }}
               >
                 View Seats
               </Button>
-              <h6 className="text-center">
-                Seats Avialable:{data.availableSeats.length}
-              </h6>
             </div>
           </div>
         </div>
