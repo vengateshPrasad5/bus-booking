@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { createBooking } from "../service/busService";
+import { createBooking, createPayment, storeInfo } from "../service/busService";
+import { getLoggedInUser } from "../service/authService";
+import SmallLoader from "./SmallLoader";
 
-function BookingForm({ selectedSeats, search, selectedBus }) {
+function BookingForm({
+  selectedSeats,
+  search,
+  setSearch,
+  selectedBus,
+  setSelectedBus,
+  setSelectedSeats,
+}) {
   const navigate = useNavigate();
+  const [paymentId, setPaymentId] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const [passengersList, setPassengersList] = useState(
     selectedSeats.reduce((acc, seat, index) => {
       acc[seat.seatId] = {
@@ -17,19 +29,33 @@ function BookingForm({ selectedSeats, search, selectedBus }) {
       return acc;
     }, {})
   );
+
   const handleInputChange = (seat, field, value) => {
     setPassengersList((prevList) => ({
       ...prevList,
       [seat]: { ...prevList[seat], [field]: value },
     }));
   };
-
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    setPaymentId(urlParams.get("razorpay_payment_id"));
+    setPaymentStatus(urlParams.get("razorpay_payment_link_status"));
+    // handleBooking();
+  }, []);
+  useEffect(() => {
+    if (paymentId) {
+      setSearch(sessionStorage.getItem("search"));
+      setSelectedBus(sessionStorage.getItem("selectedBus"));
+      setSelectedSeats(sessionStorage.getItem("selectedSeats"));
+    }
+  }, []);
   const handleBooking = async () => {
-    console.log(selectedBus);
+    setLoading(true);
     const passengerList = Object.values(passengersList).map((passenger) => ({
       ...passenger,
     }));
-    const obj = {
+    const bookingObj = {
+      paymentId: paymentId,
       reservationDate: selectedBus.departureDate,
       status: "Confirmed",
       userId: parseInt(sessionStorage.getItem("userId")),
@@ -37,13 +63,36 @@ function BookingForm({ selectedSeats, search, selectedBus }) {
       passengerList,
     };
     try {
-      const response = await createBooking(obj);
-      if (response.status === 201) {
+      // if (paymentId && paymentStatus === "paid") {
+      //   console.log("Create booking");
+      const bookingResponse = await createBooking(bookingObj);
+      if (bookingResponse.status === 201) {
+        setLoading(false);
         navigate("/");
-        alert("Booking Successfully Done!!! Please visit Order History");
+        alert("Booking Successfully Done!!! Please visit Booking History");
+        setSelectedSeats([]);
       }
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleCreatePayment = async () => {
+    setLoading(true);
+    console.log(selectedBus);
+
+    const paymentObj = {
+      userName: getLoggedInUser(),
+      amount: selectedBus.price * selectedSeats.length,
+    };
+    storeInfo(search, selectedBus, selectedSeats);
+    try {
+      const paymentResponse = await createPayment(paymentObj);
+      window.location.href = paymentResponse.data.payment_link_url;
+      setLoading(false);
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
     }
   };
   return (
@@ -105,7 +154,9 @@ function BookingForm({ selectedSeats, search, selectedBus }) {
           </Form.Group>
         </div>
       ))}
-      <Button onClick={() => handleBooking()}>Book Now</Button>
+      <Button onClick={() => handleBooking()}>
+        {isLoading && <SmallLoader />} Book Now
+      </Button>
     </div>
   );
 }
