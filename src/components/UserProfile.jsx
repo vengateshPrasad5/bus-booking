@@ -12,10 +12,6 @@ function UserProfile() {
   const role =
     sessionStorage.getItem("role") === "ROLE_USER" ? "USER" : "ADMIN";
 
-  const handleChangePassword = () => {
-    console.log("Clicked");
-  };
-
   const getProfile = async () => {
     setLoading(true);
     const userName = sessionStorage.getItem("authenticatedUser");
