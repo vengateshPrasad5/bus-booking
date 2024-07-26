@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getPassengerListByCustomer } from "../service/busService";
-import Loader from "./Loader";
+import { getPassengerListByCustomer } from "../service/busService.js";
+import Loader from "./Loader.jsx";
 
 function OrderHistory() {
   const customerId = parseInt(sessionStorage.getItem("userId"));

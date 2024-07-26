@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { registerAPICall } from "../service/authService";
-import SmallLoader from "./SmallLoader";
+import { registerAPICall } from "../service/authService.js";
+import SmallLoader from "./SmallLoader.jsx";
 import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 

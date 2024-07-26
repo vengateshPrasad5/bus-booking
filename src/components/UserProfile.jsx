@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getUserProfile } from "../service/authService";
-import Loader from "./Loader";
-import ChangePassword from "./ChangePassword";
+import { getUserProfile } from "../service/authService.js";
+import Loader from "./Loader.jsx";
+import ChangePassword from "./ChangePassword.jsx";
 
 function UserProfile() {
   const [user, setUser] = useState("");

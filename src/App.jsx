@@ -1,21 +1,22 @@
+import React from "react";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar.jsx";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SearchBus from "./components/SearchBus";
+import SearchBus from "./components/SearchBus.jsx";
 import { useState } from "react";
-import { locations } from "./utils";
-import BusLayout from "./components/BusLayout";
-import BookingForm from "./components/BookingForm";
+import { locations } from "./utils/index.js";
+import BusLayout from "./components/BusLayout.jsx";
+import BookingForm from "./components/BookingForm.jsx";
 // import { isUserLoggedIn } from "./service/authService";
-import LoginComponent from "./components/LoginComponent";
-import RegisterComponent from "./components/RegisterComponent";
+import LoginComponent from "./components/LoginComponent.jsx";
+import RegisterComponent from "./components/RegisterComponent.jsx";
 // import { UseAuth, AuthProvider } from "./components/AuthProvider";
-import OrderHistory from "./components/OrderHistory";
-import UserProfile from "./components/UserProfile";
-import PrivateOutlet from "./components/PrivateOutlet";
-import Payment from "./components/Payment";
-import { getToken, isTokenExpired } from "./service/authService";
+import OrderHistory from "./components/OrderHistory.jsx";
+import UserProfile from "./components/UserProfile.jsx";
+import PrivateOutlet from "./components/PrivateOutlet.jsx";
+import Payment from "./components/Payment.jsx";
+import { getToken, isTokenExpired } from "./service/authService.js";
 function App() {
   const [search, setSearch] = useState({
     from: locations[0],

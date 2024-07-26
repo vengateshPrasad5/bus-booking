@@ -1,7 +1,8 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
-const AUTH_REST_API_URL = "http://localhost:8080/api/auth";
+// const local = "http://localhost:8080";
+// const AUTH_REST_API_URL = "http://13.232.228.175:8080/api/auth";
+const AUTH_REST_API_URL = "http://localhost:8081/api/auth";
 
 export const registerAPICall = (registerObj) =>
   axios.post(AUTH_REST_API_URL + "/register", registerObj);

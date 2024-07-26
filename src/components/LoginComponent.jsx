@@ -5,8 +5,8 @@ import {
   loginAPICall,
   saveLoggedInUser,
   storeToken,
-} from "../service/authService";
-import Loader from "./Loader";
+} from "../service/authService.js";
+import Loader from "./Loader.jsx";
 
 const LoginComponent = () => {
   const [username, setUsername] = useState("");

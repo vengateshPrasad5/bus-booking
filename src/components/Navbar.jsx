@@ -3,7 +3,7 @@ import {
   isUserLoggedIn,
   getLoggedInUser,
   logout,
-} from "../service/authService";
+} from "../service/authService.js";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {

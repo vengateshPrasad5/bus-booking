@@ -1,9 +1,9 @@
 import axios from "axios";
-import { getToken, isTokenExpired, logout } from "./authService";
+import { getToken, isTokenExpired, logout } from "./authService.js";
 
-const BASE_REST_API_URL = "http://localhost:8080/api/v1/";
+const BASE_REST_API_URL = "http://localhost:8081/api/v1/";
 
-const BASE_REST_API_URL_NO_TOKEN = "http://localhost:8080/api/v1/";
+const BASE_REST_API_URL_NO_TOKEN = "http://localhost:8081/api/v1/";
 
 // Add a request interceptor
 axios.interceptors.request.use(

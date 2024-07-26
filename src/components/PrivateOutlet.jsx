@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { isUserLoggedIn } from "../service/authService";
+import { isUserLoggedIn } from "../service/authService.js";
 
 function PrivateOutlet() {
   const navigate = useNavigate();

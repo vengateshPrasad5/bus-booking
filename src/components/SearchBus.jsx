@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import BusList from "./BusList";
+import BusList from "./BusList.jsx";
 import {
   getSourceList,
   getDepartureList,
   getSearchBus,
   getBuses,
-} from "../service/busService";
+} from "../service/busService.js";
 
 function SearchBus({ search, setSearch }) {
   const [filteredBus, setFilteredBus] = useState(null);

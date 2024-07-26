@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { createBooking, createPayment, storeInfo } from "../service/busService";
-import { getLoggedInUser } from "../service/authService";
-import SmallLoader from "./SmallLoader";
+import {
+  createBooking,
+  createPayment,
+  storeInfo,
+} from "../service/busService.js";
+import { getLoggedInUser } from "../service/authService.js";
+import SmallLoader from "./SmallLoader.jsx";
 
 function BookingForm({
   selectedSeats,
@@ -55,7 +59,7 @@ function BookingForm({
       ...passenger,
     }));
     const bookingObj = {
-      paymentId: paymentId,
+      // paymentId: paymentId,
       reservationDate: selectedBus.departureDate,
       status: "Confirmed",
       userId: parseInt(sessionStorage.getItem("userId")),

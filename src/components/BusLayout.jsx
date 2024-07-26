@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
-import { getBusById, getBookingListByDate } from "../service/busService";
-import Loader from "./Loader";
+import { getBusById, getBookingListByDate } from "../service/busService.js";
+import Loader from "./Loader.jsx";
 
 const TicketItem = styled.li`
   list-style-type: none;
@@ -125,6 +125,7 @@ function BusLayout({
   };
 
   const generateSeats = (arrSeat) => {
+    console.log(arrSeat);
     return arrSeat?.map((seats, index) =>
       Array.isArray(seats) ? (
         <div key={seats} className="d-flex">
